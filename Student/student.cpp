@@ -11,7 +11,7 @@ int main()
 	while (true) {
 		cout << "\n1. Add Student\n2. Delete Student"
 				"\n3. Find Student\n4. Display All Students"
-				"\n5. Modify Student\n6. Exit\n";
+				"\n5. Modify Student\n0. Exit\n";
 	
 		cout << "ÊäÈëÄãµÄÑ¡Ôñ";
 		cin >> choice;
@@ -50,5 +50,5 @@ int main()
 		}
 	}
 	
-	
+	return 0;
 }

@@ -24,7 +24,7 @@ public:
 	void setScore(double newScore) { score = newScore; }
 	//打印学生信息
 	void display()const {
-		cout << "名字" << name << "ID" << id << "成绩" << score << endl;
+		cout << "名字:" << name << "ID:" << id << "成绩:" << score << endl;
 	}
 };
 class StudentManager {

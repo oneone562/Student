@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 #include <vector>
+#include <algorithm>
+#include <fstream>
 
 
 
@@ -67,5 +69,47 @@ public:
 			cout << "未找到该学号！" << endl;
 		}
 	}
-
+	void sortByscore() {
+		sort(students.begin(), students.end(),
+			[](const Student& a, const Student& b) {
+				return a.getScore() < b.getScore();
+			});
+	}
+	void sortByname() {
+		sort(students.begin(), students.end(),
+			[](const Student& a, const Student& b) {
+				return a.getName() < b.getName();
+			});
+	}
+	//保存学生信息到文件
+	void saveToFile(const string&filename)const{
+		ofstream outFile(filename);
+		if (!outFile) {
+			cerr << "无法打开文件" << filename << endl;
+			return;
+		}
+		for (const auto& student : students) {
+			outFile << student.getName() << " " 
+					<< student.getId()<< " " 
+					<< student.getScore() << endl;
+		}
+		outFile.close();
+		cout << "Student data saved to" << filename << endl;
+	}
+	//从文件加载学生信息
+	void loadFromFile(string& filename) {
+		ifstream inFile(filename);
+		if (!inFile) {
+			cerr<< "Failed to open file for reading!\n";
+			return;
+		}
+		students.clear();
+		string name, id;
+		double score;
+		while (inFile >> name >> id >> score) {
+			students.push_back(Student(name, id, score));
+		}
+		inFile.close();
+		cout << "Student data loaded from" << filename << "!\n";
+	}
 };

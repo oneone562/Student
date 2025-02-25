@@ -5,6 +5,8 @@
 int main()
 {
 	StudentManager manager;
+	string filename = "students.txt";
+	manager.loadFromFile(filename);
 	int choice=1;
 	string name, id;
 	double score;
@@ -12,8 +14,8 @@ int main()
 	while (true) {
 		cout << "\n1. Add Student\n2. Delete Student"
 				"\n3. Find Student\n4. Display All Students"
-				"\n5. Modify Student\n6.sort by scort\n7.sort by name\n0. Exit";
-		cout << "输入你的选择";
+				"\n5. Modify Student\n6.sort by scort\n7.sort by name\n8. Exit";
+		cout << "\n输入你的选择";
 		cin >> choice;
 		switch (choice)
 		{
@@ -54,11 +56,15 @@ int main()
 			cout << "sort by name\n";
 			manager.displayAllStudents();
 			break;
+		case 8:
+			//退出保存信息
+			manager.saveToFile(filename);
+			return 0;
 		default:
 			cout << "Invalid choice!" << endl;
 			break;
 		}
 	}
 	
-	return 0;
+	
 }

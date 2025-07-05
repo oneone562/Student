@@ -106,3 +106,49 @@ void ContactManager::loadFromFile(const std::string& filename) {
 
 
 }
+
+std::vector<Contact> ContactManager::findContacts(const std::string& keyword)
+const {
+	//创建结果容器
+	std::vector<Contact> results;
+
+	//如果关键字为空，返回所有联系人
+	if (keyword.empty()) {
+		results = contacts_;
+	}
+
+	//准备不区分大小写的关键字
+	std::string lowerKeyword = keyword;
+
+	//将关键字转换为小写，用于不区分大小写搜索
+	std::transform(lowerKeyword.begin(), lowerKeyword.end(), lowerKeyword.begin(),
+		[](unsigned char c) {return std::tolower(c); });
+
+
+	//使用STL算法筛选匹配的联系人
+	std::copy_if(contacts_.begin(), contacts_.end(), std::back_inserter(results),
+		//Lambda表达式定义匹配条件
+		//检查名字
+		[&](const Contact& c) {
+			std::string name = c.getName();
+			//将名字转换为小写
+			std::transform(name.begin(), name.end(), name.begin(),
+				[](unsigned char c) {return std::tolower(c); });
+			//在小写名字中搜索关键字
+			if (name.find(lowerKeyword) != std::string::npos) { return true; }
+			//检查电话，电话通常为数字不区分大小写，直接使用原始关键字
+			std::string phone = c.getPhone();
+			if (phone.find(keyword) != std::string::npos) { return true; }
+			//检查邮箱
+			std::string email = c.getEmail();
+			//将邮箱转换为小写
+			std::transform(email.begin(), email.end(), email.begin(),
+				[](unsigned char c) {return std::tolower(c); });
+			//在小写邮箱里搜索小写关键字
+			if (email.find(lowerKeyword) != std::string::npos) { return true; }
+
+			//如果以上都不匹配，返回false
+			return false;
+		});
+	return results;
+}
